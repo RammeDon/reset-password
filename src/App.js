@@ -1,13 +1,31 @@
 import { useState } from 'react';
 import './App.css';
+import emailjs from '@emailjs/browser';
+
 
 function App() {
 
   const [email, setEmail] = useState("")
+  let email_token = (Math.random() + 1).toString(36).substring(7);
 
   const handleOnChange = (e) => {
     setEmail(e.target.value)
   }
+
+  var templateParams = {
+    to_email: email,
+    token: email_token
+  }
+
+  emailjs.send('service_f1925sm', 'template_3uap8j1', templateParams, 'xu7YGoImlKi7F3SkT')
+    .then(function () {
+        console.log('SUCCESS!');
+    }, function (error) {
+        console.log('FAILED...', error);
+    });
+
+  // alert("A login token has successfully been sent to your email.");
+
 
 
   return (
