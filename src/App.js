@@ -17,12 +17,18 @@ function App() {
     token: email_token
   }
 
-  emailjs.send('service_f1925sm', 'template_3uap8j1', templateParams, 'xu7YGoImlKi7F3SkT')
-    .then(function () {
-        console.log('SUCCESS!');
-    }, function (error) {
-        console.log('FAILED...', error);
-    });
+  function handleOnClick() {
+    emailjs.send('service_f1925sm', 'template_3uap8j1', templateParams, 'xu7YGoImlKi7F3SkT')
+      .then(function () {
+          console.log('SUCCESS!');
+      }, function (error) {
+          console.log('FAILED...', error);
+      });
+
+    setEmail("")
+  }
+
+
 
   // alert("A login token has successfully been sent to your email.");
 
@@ -33,7 +39,7 @@ function App() {
       <p>Enter your email here</p>
       <input value={email} type="text" className='email-input' placeholder='enter your email here...' onChange={handleOnChange}></input>
       <div>
-        <button >Send token</button>
+        <button onClick={handleOnClick}>Send token</button>
       </div>
       
     </div>
