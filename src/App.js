@@ -6,7 +6,7 @@ import emailjs from '@emailjs/browser';
 function App() {
 
   const [email, setEmail] = useState("")
-  
+  const [confirmation, setConfirmation] = useState("")
 
   const handleOnChange = (e) => {
     setEmail(e.target.value)
@@ -29,13 +29,32 @@ function App() {
       });
 
     setEmail("")
+    setConfirmation("Token sent to " + email)
+    createToken(templateParams)
   }
 
+  const createToken = async (tempelate) => {
+    const createDetail = {
+      email: tempelate.to_email,
+      token: tempelate.token
+    }
+    fetch(`http://192.168.0.159:3000/api/user/mailtoken`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(createDetail)
+    })
+      .then(res => res.json())
+      .then(response => {
+          if (response.message) {
+              console.log(response.message);
+          }
+      });
 
-
-  // alert("A login token has successfully been sent to your email.");
-
-
+    console.log("create details: ", createDetail)
+    
+  }
 
   return (
     <div className="App">
@@ -44,6 +63,7 @@ function App() {
       <div>
         <button onClick={handleOnClick}>Send token</button>
       </div>
+      <p>{confirmation}</p>
       
     </div>
   );
